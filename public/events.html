@@ -73,7 +73,7 @@
     </div>
 
     <script>
-        // Tự động tải danh sách CLB khi trang vừa load
+       // Khởi tạo trang và tải danh sách câu lạc bộ
         document.addEventListener('DOMContentLoaded', loadClubs);
 
         async function loadClubs() {
@@ -93,6 +93,7 @@
             }
         }
 
+        // Gửi dữ liệu tạo sự kiện lên API
         async function saveEvent() {
             const user = JSON.parse(localStorage.getItem('user'));
             if (!user) { window.location.href = 'login.html'; return; }
