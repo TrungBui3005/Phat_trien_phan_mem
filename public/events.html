@@ -47,7 +47,7 @@
                             </div>
                             
                             <div class="col-12">
-                                <label class="form-label small text-uppercase">Mô tả</label>
+                                <label class="form-label small text-uppercase">Mô tả sự kiện (*)</label>
                                 <textarea id="description" class="form-control" rows="3" placeholder="Nội dung chi tiết sự kiện..."></textarea>
                             </div>
 
@@ -83,13 +83,13 @@
                 const clubs = await response.json();
 
                 if (clubs.length > 0) {
-                    clubSelect.innerHTML = '<option value="">-- Chọn Câu Lạc Bộ --</option>' + 
+                    clubSelect.innerHTML = '<option value="">-- Vui Lòng Chọn câu Lạc Bộ --</option>' + 
                         clubs.map(c => `<option value="${c.id}">${c.club_name}</option>`).join('');
                 } else {
                     clubSelect.innerHTML = '<option value="">Chưa có CLB nào</option>';
                 }
             } catch (error) {
-                clubSelect.innerHTML = '<option value="">Lỗi tải danh sách CLB</option>';
+                clubSelect.innerHTML = '<option value="">Lỗi Không Tải Được Danh Sách CLB</option>';
             }
         }
 
@@ -97,7 +97,6 @@
         async function saveEvent() {
             const user = JSON.parse(localStorage.getItem('user'));
             if (!user) { window.location.href = 'login.html'; return; }
-
             const club_id = document.getElementById('club_id').value;
             const title = document.getElementById('title').value.trim();
             const description = document.getElementById('description').value.trim();
@@ -109,7 +108,6 @@
                 alert("Vui lòng điền đủ các trường có dấu (*)");
                 return;
             }
-
             try {
                 const response = await fetch('index.php/event/create', {
                     method: 'POST',
@@ -123,7 +121,6 @@
                         created_by: user.id 
                     })
                 });
-
                 const result = await response.json();
                 if (result.status === "success") {
                     alert("✅ " + result.message);
