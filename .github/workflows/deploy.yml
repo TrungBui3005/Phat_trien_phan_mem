@@ -1,0 +1,35 @@
+name: CI/CD Pipeline - Auto Deploy Student Manager
+
+# Luật kích hoạt: Cứ có thành viên nào "git push" code mới lên nhánh main là kích hoạt ngay
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: Deploy to Linux Server
+    runs-on: ubuntu-latest
+
+    steps:
+    # Bước A: Lấy mã nguồn mới nhất từ GitHub về máy chủ tạm của GitHub để xử lý
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Bước B: Sử dụng các mã khóa Secret đã tạo ở Bước 1 để SSH vào máy ảo của bạn và chạy lệnh
+    - name: Executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: 22
+        script: |
+          # 1. Di chuyển vào thư mục chứa code chạy Docker (nơi có file docker-compose.yml)
+          cd /var/www/html
+          
+          # 2. Kéo code mới nhất từ nhánh main về máy ảo Linux của bạn
+          sudo git pull origin main
+          
+          # 3. Ra lệnh cho Docker tự động hạ container cũ, build lại code mới và khởi chạy ngầm
+          sudo docker compose down
+          sudo docker compose up -d --build
