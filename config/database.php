@@ -1,9 +1,9 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "clb_management"; // Tên database từ file .sql của bạn
-    private $username = "root";           // Mặc định của XAMPP
-    private $password = "";               // Mặc định của XAMPP là trống
+    private $db_name = "clb_management"; 
+    private $username = "root";           
+    private $password = "";               
     public $conn;
 
     public function getConnection() {
@@ -13,9 +13,20 @@ class Database {
             $this->conn->exec("set names utf8");
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
-            echo "Lỗi kết nối: " . $exception->getMessage();
+            // Trả về JSON lỗi thay vì echo chữ thuần
+            header('Content-Type: application/json');
+            http_response_code(500);
+            echo json_with_status(["status" => "error", "message" => "Lỗi kết nối CSDL: " . $exception->getMessage()]);
+            exit;
         }
         return $this->conn;
+    }
+}
+
+// Hàm bổ trợ viết nhanh chuỗi json nếu chưa có
+if (!function_exists('json_with_status')) {
+    function json_with_status($data) {
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 }
 ?>
