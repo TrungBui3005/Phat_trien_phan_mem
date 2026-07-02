@@ -1,0 +1,43 @@
+# =========================================================================
+# 📑 FILE .GITIGNORE CHUẨN CHO DỰ ÁN PHP / MVC / XAMPP
+# =========================================================================
+
+# 1. Các file cấu hình bảo mật thông tin (Mật khẩu DB, Secret Keys)
+# Lưu ý: Mỗi máy thành viên tự tạo file này riêng, không push lên Git
+.env
+.env.local
+.env.*.local
+config/database_local.php
+
+# 2. File rác và bộ nhớ tạm của các IDE / Text Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.bak
+
+# 3. File rác tự sinh của Hệ điều hành (Đặc biệt quan trọng khi làm nhóm)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# 4. Các file Logs và Cache tự phát sinh trong quá trình chạy ứng dụng
+*.log
+logs/
+cache/
+storage/logs/
+storage/framework/views/
+storage/framework/cache/
+
+# 5. Thư mục chứa thư viện bên thứ ba (Nếu nhóm có dùng Composer hoặc NPM)
+vendor/
+node_modules/
+
+# 6. Các file cài đặt và file nén không cần thiết trong source code
+*.zip
+*.rar
+*.tar.gz
